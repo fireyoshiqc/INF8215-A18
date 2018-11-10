@@ -70,48 +70,50 @@ ask(plombier, X) :-
 
 personne(X) :- ask(reel, X), reel(X).
 personne(X) :- ask(homme, X), homme_jeu(X).
-personne(X) :- true, lc(X). % Lara Croft
+personne(X) :- lc(X). % Lara Croft
 
 reel(X) :- ask(homme, X), homme_reel(X).
 reel(X) :- ask(artiste, X), femme_artiste(X).
-reel(X) :- true, cleo(X). % Cléopâtre
+reel(X) :- cleo(X). % Cléopâtre
 
 homme_reel(X) :- ask(artiste, X), homme_artiste(X).
 homme_reel(X) :- ask(politicien, X), homme_politicien(X).
 homme_reel(X) :- ask(religieux, X), homme_religieux(X).
-homme_reel(X) :- ask(pilote, X), homme_pilote(X).
+homme_reel(X) :- /*ask(pilote, X),*/ homme_pilote(X). % Pour catégoriser les pilotes.
+% Ici, on pourrait ajouter d'autres catégories pour la flexibilité.
+% Si c'est le cas, on décommente ask(pilote, X).
 
 homme_artiste(X) :- ask(noir, X), homme_artiste_noir(X).
 homme_artiste(X) :- ask(vivant, X), homme_artiste_pas_noir_vivant(X).
 homme_artiste(X) :- vh(X). % Victor Hugo
 
 homme_artiste_noir(X) :- ask(vivant, X), dz(X). % Denzel Washington.
-homme_artiste_noir(X) :- true, mj(X). % Michael Jackson
+homme_artiste_noir(X) :- mj(X). % Michael Jackson
 
 homme_artiste_pas_noir_vivant(X) :- ask(japonais, X), hk(X). % Hideo Kojima.
 homme_artiste_pas_noir_vivant(X) :- ask(vrai_nom, X), qt(X). % Quentin Tarantino.
-homme_artiste_pas_noir_vivant(X) :- true, bk(X). % Banksy.
+homme_artiste_pas_noir_vivant(X) :- bk(X). % Banksy.
 
 homme_politicien(X) :- ask(americain, X), homme_politicien_americain(X).
 homme_politicien(X) :- ask(vivant, X), mg(X). % Mikhail Gorbachev.
 homme_politicien(X) :- staline(X). % Joseph Staline.
 
 homme_politicien_americain(X) :- ask(demissionne, X), nixon(X).
-homme_politicien_americain(X) :- eisenhower(X).
+homme_politicien_americain(X) :- eisenhower(X). % Dwight D. Eisenhower
 
-homme_religieux(X) :- ask(fils_dieu, X), js(X).
-homme_religieux(X) :- ask(vivant, X), pape(X).
-homme_religieux(X) :- true, ms(X).
+homme_religieux(X) :- ask(fils_dieu, X), js(X). % Jesus
+homme_religieux(X) :- ask(vivant, X), pape(X). % Pape Francois
+homme_religieux(X) :- ms(X). % Moise
 
-homme_pilote(X) :- ask(vivant, X), alonso(X).
-homme_pilote(X) :- true, senna(X).
+homme_pilote(X) :- ask(vivant, X), alonso(X). % Fernando Alonso
+homme_pilote(X) :- senna(X). % Ayrton Senna
 
 femme_artiste(X) :- ask(acteur, X), jl(X). % Jennifer Lawrence
 femme_artiste(X) :- ask(ecrivain, X), jkr(X). % J.K. Rowling
 femme_artiste(X) :- true, lg(X). % Lady Gaga
 
-homme_jeu(X) :- ask(plombier, X), mr(X).
-homme_jeu(X) :- true, jb(X).
+homme_jeu(X) :- ask(plombier, X), mr(X). % Mario
+homme_jeu(X) :- true, jb(X). % James Bond
 
 lc(lara_croft).
 cleo(cleopatre).
