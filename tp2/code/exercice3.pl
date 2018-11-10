@@ -2,6 +2,7 @@
 prerequis(inf1005c, inf1010).
 prerequis(inf1005c, log1000).
 prerequis(inf1005c, inf1600).
+prerequis(inf1500, inf1600).
 prerequis(inf1010, inf2010).
 prerequis(inf1010, log2410).
 prerequis(log1000, log2410).
@@ -20,4 +21,11 @@ complet(Prerequis,Cours):-prerequis(Prerequis,Cours).
 complet(Prerequis,Cours):-prerequis(AutrePrerequis, Cours),
      complet(Prerequis, AutrePrerequis).
 
-complet(Cours):-setof(Prerequis, Prerequis^complet(Prerequis, Cours), List).
+coursAPrendreComplet(Cours):-setof(Prerequis, Prerequis^complet(Prerequis, Cours), List),
+    printList(List).
+
+printList([]).
+printList([Head|Rest]):-
+    format('~w~n', Head),
+    printList(Rest).
+
