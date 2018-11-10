@@ -16,11 +16,12 @@ constraint forall (i in equipes, k in rondes) (opposant[i,k] != i); % ne peut jo
 
 constraint forall (i in equipes, k in rondes) (opposant[opposant[i,k],k] = i); % L'opposant de l'opposant de i, c'est i
 
-constraint forall (i in equipes) (alldifferent([opposant[i,k] | k in rondes])); % doit jouer contre des opposants differents a chaque ronde
+constraint forall (i in equipes) (alldifferent([opposant[i,k] | k in rondes])); % Doit jouer contre des opposants differents a chaque ronde
 
-constraint forall (k in rondes) (alldifferent([opposant[i,k] | i in equipes])); % toutes les rondes doivent faire jouer toutes les equipes (differentes)
+constraint forall (k in rondes) (alldifferent([opposant[i,k] | i in equipes])); % Youtes les rondes doivent faire jouer toutes les equipes (differentes)
 
-% TODO VÉRIFIER CES DEUX CONTRAINTES SUIVANTES PCQ YO NO SÉ IF FULL OK
+constraint opposant[1, 1] < opposant[1, nbRounds]; % Contrainte pour briser la symétrie
+
 
 % vérifier qu'il n'y pas 4 rounds à home de suite
 constraint forall (k in 4..nbRounds, i in equipes) (
@@ -37,10 +38,6 @@ constraint forall (k in 4..nbRounds, i in equipes) (
     emplacement[i, k-1] != 0 \/
     emplacement[i, k] != 0
   );
-
-%constraint forall (k in 4..nbRounds) ([(!(emplacement[i, k-3] = 1 /\ emplacement[i, k-2] = 1 /\ emplacement[i, k-1] = 1 /\ emplacement[i, k] = 1)) | i in equipes]);
-
-%constraint forall (k in 4..nbRounds) ((!emplacement[i, k-3] /\ !emplacement[i, k-2] /\ !emplacement[i, k-1] /\ !emplacement[i, k]) | i in equipes);
 
 solve
 :: seq_search([
