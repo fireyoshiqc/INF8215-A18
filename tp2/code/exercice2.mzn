@@ -18,7 +18,7 @@ constraint forall (i in equipes, k in rondes) (opposant[opposant[i,k],k] = i); %
 
 constraint forall (i in equipes) (alldifferent([opposant[i,k] | k in rondes])); % Doit jouer contre des opposants differents a chaque ronde
 
-constraint forall (k in rondes) (alldifferent([opposant[i,k] | i in equipes])); % Youtes les rondes doivent faire jouer toutes les equipes (differentes)
+constraint forall (k in rondes) (alldifferent([opposant[i,k] | i in equipes])); % Toutes les rondes doivent faire jouer toutes les equipes (differentes)
 
 constraint opposant[1, 1] < opposant[1, nbRounds]; % Contrainte pour briser la symétrie
 
