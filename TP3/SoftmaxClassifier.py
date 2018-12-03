@@ -69,7 +69,7 @@ class SoftmaxClassifier(BaseEstimator, ClassifierMixin):
         self.nb_feature = X.shape[1]
         self.nb_classes = len(np.unique(y))
 
-        X_bias = np.concatenate((X, np.ones((X.shape[0], 1))), axis=1)
+        X_bias = np.concatenate((np.ones((X.shape[0], 1)), X), axis=1)
         self.theta_ = np.random.normal(scale=0.3, size=(X_bias.shape[1], self.nb_classes))
 
         for epoch in range(self.n_epochs):
@@ -107,7 +107,7 @@ class SoftmaxClassifier(BaseEstimator, ClassifierMixin):
         except AttributeError:
             raise RuntimeError("You must train classifer before predicting data!")
 
-        X_bias = np.concatenate((X, np.ones((X.shape[0], 1))), axis=1)
+        X_bias = np.concatenate((np.ones((X.shape[0], 1)), X), axis=1)
         logits = np.matmul(X_bias, self.theta_)
 
         return np.apply_along_axis(self._softmax, axis=1, arr=logits)
@@ -251,6 +251,6 @@ class SoftmaxClassifier(BaseEstimator, ClassifierMixin):
                 getattr(self, "theta_")
             except AttributeError:
                 raise RuntimeError("You must train the classifer to use L2 regularization!")
-            l2 = 2 * np.concatenate((np.zeros((1, self.theta_.shape[1])), self.theta_[1:,:]), axis=0) * self.alpha
+            l2 = 2 * np.concatenate((np.zeros((1, self.theta_.shape[1])), self.theta_[1:, :]), axis=0) * self.alpha
 
         return (1 / one_hot.shape[0]) * (np.matmul(X.T, (probas - one_hot)) + l2)
