@@ -6,7 +6,7 @@ class SoftmaxClassifier(BaseEstimator, ClassifierMixin):
     """A softmax classifier"""
 
     def __init__(self, lr=0.1, alpha=100, n_epochs=1000, eps=1.0e-5, threshold=1.0e-10, regularization=True,
-                 early_stopping=True, use_zero_indexed_classes=True):
+                 early_stopping=True,use_zero_indexed_classes=True):
 
         """
             self.lr : the learning rate for weights update during gradient descent
@@ -27,7 +27,7 @@ class SoftmaxClassifier(BaseEstimator, ClassifierMixin):
         self.regularization = regularization
         self.threshold = threshold
         self.early_stopping = early_stopping
-        self.use_zero_indexed_classe = use_zero_indexed_classes
+        self.use_zero_indexed_classes = use_zero_indexed_classes
 
     """
         Public methods, can be called by the user
@@ -131,7 +131,7 @@ class SoftmaxClassifier(BaseEstimator, ClassifierMixin):
             getattr(self, "theta_")
         except AttributeError:
             raise RuntimeError("You must train classifer before predicting data!")
-        return np.argmax(self.predict_proba(X), axis=1) + (0 if self.use_zero_indexed_classe else 1)
+        return np.argmax(self.predict_proba(X), axis=1) + (0 if self.use_zero_indexed_classes else 1)
 
     def fit_predict(self, X, y=None):
         self.fit(X, y)
@@ -207,10 +207,7 @@ class SoftmaxClassifier(BaseEstimator, ClassifierMixin):
     """
 
     def _one_hot(self, y):
-        if not self.use_zero_indexed_classe:
-            y = y - 1
-        n_values = np.max(y) + 1
-        return np.eye(n_values)[y]
+        return np.eye(self.nb_classes)[y]
 
     """
         In :
