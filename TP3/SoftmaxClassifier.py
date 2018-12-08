@@ -187,7 +187,7 @@ class SoftmaxClassifier(BaseEstimator, ClassifierMixin):
                 getattr(self, "theta_")
             except AttributeError:
                 raise RuntimeError("You must train classifer before predicting data!")
-            l2 = self.alpha * np.sum((self.theta_[1:, :] ** 2))
+            l2 = (self.alpha / 2) * np.sum((self.theta_[1:, :] ** 2))
         return (-1 / one_hot.shape[0]) * (np.sum(one_hot * np.log(probabilities)) - l2)
 
     """
@@ -206,7 +206,8 @@ class SoftmaxClassifier(BaseEstimator, ClassifierMixin):
     """
 
     def _one_hot(self, y):
-        return np.eye(self.nb_classes)[y]
+        idx = y if self.use_zero_indexed_classes else y-1
+        return np.eye(self.nb_classes)[idx]
 
     """
         In :
@@ -247,6 +248,6 @@ class SoftmaxClassifier(BaseEstimator, ClassifierMixin):
                 getattr(self, "theta_")
             except AttributeError:
                 raise RuntimeError("You must train the classifer to use L2 regularization!")
-            l2 = 2 * np.concatenate((np.zeros((1, self.theta_.shape[1])), self.theta_[1:, :]), axis=0) * self.alpha
+            l2 = np.concatenate((np.zeros((1, self.theta_.shape[1])), self.theta_[1:, :]), axis=0) * self.alpha
 
         return (1 / one_hot.shape[0]) * (np.matmul(X.T, (probas - one_hot)) + l2)
